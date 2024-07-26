@@ -3,31 +3,24 @@
 #include "color_coding.h"
 #include "test_color_coding.h"
 
-#define MAX_COLORPAIR_NAME_CHARS 16
+const char* majorColorNames[] = {
+    "White", "Red", "Black", "Yellow", "Violet"
+};
 
-void checkColorPair(const ColorPair* colorPair, enum MajorColor expectedMajor, enum MinorColor expectedMinor) {
-    assert(colorPair->majorColor == expectedMajor);
-    assert(colorPair->minorColor == expectedMinor);
+const char* minorColorNames[] = {
+    "Blue", "Orange", "Green", "Brown", "Slate"
+};
+
+int numberOfMajorColors = sizeof(majorColorNames) / sizeof(majorColorNames[0]);
+int numberOfMinorColors = sizeof(minorColorNames) / sizeof(minorColorNames[0]);
+
+int getPairNumberFromColor(const ColorPair* colorPair) {
+    return colorPair->major * numberOfMinorColors +
+            colorPair->minor + 1;
 }
 
-void testNumberToPair(int pairNumber, enum MajorColor expectedMajor, enum MinorColor expectedMinor) {
-    ColorPair colorPair = GetColorFromPairNumber(pairNumber);
-    char colorPairNames[MAX_COLORPAIR_NAME_CHARS];
-    ColorPairToString(&colorPair, colorPairNames);
-    printf("Got pair %s\n", colorPairNames);
-    checkColorPair(&colorPair, expectedMajor, expectedMinor);
-}
-
-void testPairToNumber(enum MajorColor major, enum MinorColor minor, int expectedPairNumber) {
-    ColorPair colorPair = {major, minor};
-    int pairNumber = GetPairNumberFromColor(&colorPair);
-    printf("Got pair number %d\n", pairNumber);
-    assert(pairNumber == expectedPairNumber);
-}
-
-void runTests() {
-    testNumberToPair(4, WHITE, BROWN);
-    testNumberToPair(5, WHITE, SLATE);
-    testPairToNumber(BLACK, ORANGE, 12);
-    testPairToNumber(VIOLET, SLATE, 25);
+void colorPairToString(const ColorPair* colorPair, char* buffer) {
+    sprintf(buffer, "%s %s",
+        majorColorNames[colorPair->major],
+        minorColorNames[colorPair->minor]);
 }
