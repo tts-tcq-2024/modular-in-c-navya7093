@@ -1,44 +1,35 @@
 #include <stdio.h>
 #include "color_coding.h"
+#include <assert.h>
+#include "test_color_coding.h"
 
-const char* MajorColorNames[] = {
-    "White", "Red", "Black", "Yellow", "Violet"
-};
-int numberOfMajorColors =
-    sizeof(MajorColorNames) / sizeof(MajorColorNames[0]);
-
-const char* MinorColorNames[] = {
-    "Blue", "Orange", "Green", "Brown", "Slate"
-};
-int numberOfMinorColors =
-    sizeof(MinorColorNames) / sizeof(MinorColorNames[0]);
-
-void ColorPairToString(const ColorPair* colorPair, char* buffer) {
-    sprintf(buffer, "%s %s",
-        MajorColorNames[colorPair->majorColor],
-        MinorColorNames[colorPair->minorColor]);
+void testNumberToPair(int pairNumber, enum majorColor expectedMajor, enum minorColor expectedMinor) {
+    ColorPair colorPair = getColorFromPairNumber(pairNumber);
+    char colorPairNames[16];
+    colorPairToString(&colorPair, colorPairNames);
+    printf("Got pair %s\n", colorPairNames);
+    assert(colorPair.major == expectedMajor);
+    assert(colorPair.minor == expectedMinor);
 }
 
-ColorPair GetColorFromPairNumber(int pairNumber) {
+void testPairToNumber(enum majorColor major, enum minorColor minor, int expectedPairNumber) {
     ColorPair colorPair;
-    int zeroBasedPairNumber = pairNumber - 1;
-    colorPair.majorColor = 
-        (enum MajorColor)(zeroBasedPairNumber / numberOfMinorColors);
-    colorPair.minorColor =
-        (enum MinorColor)(zeroBasedPairNumber % numberOfMinorColors);
-    return colorPair;
+    colorPair.major = major;
+    colorPair.minor = minor;
+    int pairNumber = getPairNumberFromColor(&colorPair);
+    printf("Got pair number %d\n", pairNumber);
+    assert(pairNumber == expectedPairNumber);
 }
 
-int GetPairNumberFromColor(const ColorPair* colorPair) {
-    return colorPair->majorColor * numberOfMinorColors +
-            colorPair->minorColor + 1;
-}
+int main() {
+    testNumberToPair(4, WHITE, BROWN);
+    testNumberToPair(5, WHITE, SLATE);
 
-void printColorCodingManual() {
-    for (int i = 1; i <= numberOfMajorColors * numberOfMinorColors; i++) {
-        ColorPair colorPair = GetColorFromPairNumber(i);
-        char colorPairNames[16];
-        ColorPairToString(&colorPair, colorPairNames);
-        printf("%d: %s\n", i, colorPairNames);
-    }
+    testPairToNumber(BLACK, ORANGE, 12);
+    testPairToNumber(VIOLET, SLATE, 25);
+
+    printf("\nColor Coding Reference Manual:\n");
+    printColorCodingReferenceManual();
+
+    return 0;
 }
