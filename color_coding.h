@@ -14,4 +14,4 @@ typedef struct {
     enum minorColor minor;
 } ColorPair;
 
-#endif // COLOR_PAIR_H
+#endif // COLOR_CODING_H
