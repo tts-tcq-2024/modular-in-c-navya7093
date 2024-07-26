@@ -1,22 +1,17 @@
 #ifndef COLOR_CODING_H
 #define COLOR_CODING_H
 
-enum MajorColor {WHITE, RED, BLACK, YELLOW, VIOLET};
-enum MinorColor {BLUE, ORANGE, GREEN, BROWN, SLATE};
+enum majorColor {WHITE, RED, BLACK, YELLOW, VIOLET};
+enum minorColor {BLUE, ORANGE, GREEN, BROWN, SLATE};
 
-extern const char* MajorColorNames[];
-extern const char* MinorColorNames[];
+extern const char* majorColorNames[];
+extern const char* minorColorNames[];
 extern int numberOfMajorColors;
 extern int numberOfMinorColors;
 
 typedef struct {
-    enum MajorColor majorColor;
-    enum MinorColor minorColor;
+    enum majorColor major;
+    enum minorColor minor;
 } ColorPair;
 
-void ColorPairToString(const ColorPair* colorPair, char* buffer);
-ColorPair GetColorFromPairNumber(int pairNumber);
-int GetPairNumberFromColor(const ColorPair* colorPair);
-void printColorCodingManual();
-
-#endif // COLOR_CODING_H
+#endif // COLOR_PAIR_H
