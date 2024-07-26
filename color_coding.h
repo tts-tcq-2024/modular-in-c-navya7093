@@ -1,6 +1,5 @@
-#include <stdio.h>
-#include <assert.h>
-#include <stdbool.h>
+#ifndef COLOR_CODING_H
+#define COLOR_CODING_H
 
 enum MajorColor {WHITE, RED, BLACK, YELLOW, VIOLET};
 enum MinorColor {BLUE, ORANGE, GREEN, BROWN, SLATE};
@@ -18,4 +17,6 @@ typedef struct {
 void ColorPairToString(const ColorPair* colorPair, char* buffer);
 ColorPair GetColorFromPairNumber(int pairNumber);
 int GetPairNumberFromColor(const ColorPair* colorPair);
-void PrintColorCodingReferenceManual();
+void printColorCodingManual();
+
+#endif // COLOR_CODING_H
